@@ -5,12 +5,14 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "rabbitcage"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{A AMQP firewall which allows to restrict user access to RabbitMQ using ACLs.}
+    gem.description = %Q{RabbitMQ's access control capabilities are rather limited. RabbitCage enables fine-grated permission setups, you define which user can perform which AMQP method on which class.}
     gem.email = "git@dsander.de"
     gem.homepage = "http://github.com/dsander/rabbitcage"
     gem.authors = ["Dominik Sander"]
     gem.add_development_dependency "bacon", ">= 0"
+    gem.add_dependency "amqp", ">= 0.6.5"
+    gem.add_dependency "eventmachine", ">= 0.12.10"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

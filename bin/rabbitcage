@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+$:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
+require 'rabbitcage'
+require 'optparse'
+
+
+
+begin
+  options = {:host => "0.0.0.0", :port => 5672, :remote_host => 'localhost', :remote_port => 5673, :log_level => Logger::ERROR}
+ 
+  opts = OptionParser.new do |opts|
+    opts.banner = <<-EOF
+Usage:
+rabbitcage -c <config file> [-h <host>] [-p <port>]
+ 
+Options:
+EOF
+    opts.on("-cCONFIG", "--config CONFIG", "Configuration file") do |x|
+      options[:config] = x
+    end
+ 
+    opts.on("-hHOST", "--host HOST", "Hostname to bind. Default 0.0.0.0") do |x|
+      options[:host] = x
+    end
+ 
+    opts.on("-pPORT", "--port PORT", "Port to listen on. Default 5672") do |x|
+      options[:port] = x
+    end
+
+    opts.on("-rHOST", "--remote-host HOST", "Hostname of the RabbitMQ server to connect to. Default 'localhost'") do |x|
+      options[:host] = x
+    end
+
+    
+    opts.on("-xPORT", "--remote-port PORT", "Port of the RabbitMQ server to connect to. Default 5673") do |x|
+      options[:remote_port] = x
+    end
+    
+    opts.on("-v", "Verbose output (denied requests).") do |x|
+      options[:log_level] = Logger::WARN
+    end
+    
+    opts.on("-V", "Very verbose output (denied requests/allowed requests).") do |x|
+      options[:log_level] = Logger::INFO
+    end
+    
+    opts.on("-D", "Debug output (denied requests/allowed requests/debug info).") do |x|
+      options[:log_level] = Logger::DEBUG
+    end
+    
+  end
+ 
+  opts.parse!
+ 
+  load(options[:config])
+  name = options[:config].split('/').last.chomp('.rb')
+  RabbitCage.run('config', options[:host], options[:port], options[:remote_host], options[:remote_port], options[:log_level])
+rescue Exception => e
+  if e.instance_of?(SystemExit)
+    raise
+  else
+    LOGGER.fatal 'Uncaught exception'
+    LOGGER.fatal e.message
+    LOGGER.fatal "\n"+e.backtrace.join("\n")
+  end
+end
