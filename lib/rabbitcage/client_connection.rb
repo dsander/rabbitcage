@@ -36,7 +36,7 @@ class RabbitCage
       data2 = data.dup
 
       while frame = AMQP::Frame.parse(data2)
-        LOGGER.debug "Got frame: " + frame.payload.inspect
+        LOGGER.debug "Got frame: " + frame.inspect
         case frame.payload
         when AMQP::Protocol::Connection::Open
           @vhost = frame.payload.virtual_host

@@ -71,6 +71,7 @@ class RabbitCage
       return :<%= rule[:permission]  %> if <%= rule[:properties] %>
     <%- end -%>
     <%- @rules.delete(:any) -%>
+    return :allow if (frame.class == AMQP::Protocol::Header || frame.class == String)
     <%- if @rules.any? -%>
       
       case frame  # 4
