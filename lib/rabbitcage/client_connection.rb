@@ -41,7 +41,7 @@ class RabbitCage
         when AMQP::Protocol::Connection::Open
           @vhost = frame.payload.virtual_host
         when AMQP::Protocol::Connection::StartOk
-          length = frame.payload.response[10].unpack('c').first
+          length = frame.payload.response[10].class == String ? frame.payload.response[10].unpack('c').first : frame.payload.response[10]
           @user =  frame.payload.response[11..10+length]
         end
 
@@ -51,7 +51,7 @@ class RabbitCage
           resp = AMQP::Protocol::Channel::Close.new(:reply_code => 403,
                                             :reply_text => "ACCESS_REFUSED - access to '#{frame.payload.queue || frame.payload.exchange rescue 'the server'}' in vhost '#{@vhost}' refused for user '#{@user}' by rabbitcage",
                                             :method_id => 10,
-                                            :class_id => 50,
+                                            :class_id => 50
                                            ).to_frame
           resp.channel = frame.channel
           self.send_data resp.to_s
