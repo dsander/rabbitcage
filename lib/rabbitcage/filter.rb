@@ -67,10 +67,12 @@ class RabbitCage
       require 'erb'
       method = ERB.new(%q[
   def filter(frame)
+    <%- @rules[:any].each do |rule| -%>
+      return :<%= rule[:permission]  %> if <%= rule[:properties] %>
+    <%- end -%>
+    <%- @rules.delete(:any) -%>
     <%- if @rules.any? -%>
-      <%- @rules[:any].each do |rule| -%>
-        return :<%= rule[:permission]  %> if <%= rule[:properties] %>
-      <%- end -%>
+      
       case frame  # 4
         <%- @rules.each_pair do |klass, r|-%>
           <%-  next if klass == :any -%>

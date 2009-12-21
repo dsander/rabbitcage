@@ -52,8 +52,15 @@ EOF
  
   opts.parse!
  
+  
+  if !options[:config]
+    puts "You need to specify a config file.\n\n"
+    puts opts
+    exit
+  end
   load(options[:config])
   name = options[:config].split('/').last.chomp('.rb')
+  
   RabbitCage.run('config', options[:host], options[:port], options[:remote_host], options[:remote_port], options[:log_level])
 rescue Exception => e
   if e.instance_of?(SystemExit)

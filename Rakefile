@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "rabbitcage"
     gem.summary = %Q{A AMQP firewall which allows to restrict user access to RabbitMQ using ACLs.}
-    gem.description = %Q{RabbitMQ's access control capabilities are rather limited. RabbitCage enables fine-grated permission setups, you define which user can perform which AMQP method on which class.}
+    gem.description = %Q{RabbitMQ's access control capabilities are rather limited. RabbitCage enables fine-grained permission setups, you define which user can perform which AMQP method on which class.}
     gem.email = "git@dsander.de"
     gem.homepage = "http://github.com/dsander/rabbitcage"
     gem.authors = ["Dominik Sander"]

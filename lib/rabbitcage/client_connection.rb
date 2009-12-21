@@ -11,6 +11,7 @@ class RabbitCage
       LOGGER.info "Accepted #{peer}"
       @buffer = []
       @tries = 0
+      @user = 'guest'
       RabbitCage.incr
     end
 
