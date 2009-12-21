@@ -46,6 +46,22 @@ RabbitCage works as a transparent, content aware proxy between the connecting cl
 	  default :deny
 	end
 
+## Performance
+Here are some basic performance messurements which compares a raw connection to RabbitMQ with a filtered one. Check the [spec/performance/test.rb](http://github.com/dsander/rabbitcage/blob/master/spec/performance/test.rb) script to get information about how the tests were run. If you have a more benchmark results or suggestions about how to change the benchmark, please let me know.
+
+	Average message delay:
+	RabbitMQ    : 0.00293165922164917
+	RabbitCache : 0.00457870006561279
+
+	For a 1kb message do 1000 times:
+	RabbitMQ    push to queue : 0.443398952484131
+	RabbitMQ    pop from queue: 0.711700439453125
+	RabbitMQ    async get     : 0.847184419631958
+	RabbitCache push to queue : 0.764634847640991
+	RabbitCache pop from queue: 1.02018523216248
+	RabbitCache async get     : 0.852582693099976
+
+
 ## Note on Patches/Pull Requests
  
 * Fork the project.
